@@ -1,72 +1,33 @@
-## Summary
+# manifest-kmtek-stm32mp
 
-**meta-st-stm32mp BSP layer** is a layer containing the STMicroelectronics bsp metadata for current versions
-of stm32mp.
+## Required Packages for the Build Host
+Essentials: Packages needed to build an image on a headless system:
 
-This layer relies on OpenEmbedded/Yocto build system that is provided through
-Bitbake and OpenEmbedded-Core layers or Poky layer all part of the Yocto Project
+     $ sudo apt-get install gawk wget git diffstat unzip texinfo gcc-multilib \
+     build-essential chrpath socat cpio python3 python3-pip python3-pexpect \
+     xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev \
+     pylint3 xterm
+                        
+Documentation: Packages needed if you are going to build out the Yocto Project documentation manuals:
 
-The Yocto Project has extensive documentation about OE including a reference manual
-which can be found at:
+     $ sudo apt-get install make xsltproc docbook-utils fop dblatex xmlto
+## Install Repo
+- `mkdir ~/bin`
+- `curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > ~/bin/repo`
+- `chmod a+x ~/bin/repo`
+- 
+## Build Yocto
+- `mkdir yocto-kmtek`
+- `cd yocto-kmtek`
+- `python3 ~/bin/repo init -u https://github.com/km-tek/manifest-stm32mp-v1.git -b dunfell`
+- `python3 ~/bin/repo sync -j8`
+- `DISTRO=openstlinux-weston MACHINE=kmtek source layers/meta-st/scripts/envsetup.sh build`
+- `bitbake kmtek-weston --runall=fetch` (download package)
+- `bitbake -k kmtek-weston` (build image)
 
- * **http://yoctoproject.org/documentation**
-
-For information about OpenEmbedded, see the OpenEmbedded website:
-
- * **http://www.openembedded.org/**
-
-This layer depends on:
-
-```
-[OECORE]
-URI: https://github.com/openembedded/openembedded-core.git
-layers: meta
-branch: same dedicated branch as meta-st-stm32mp
-revision: HEAD
-[BITBAKE]
-URI: https://github.com/openembedded/bitbake.git
-branch: branch associated to oecore branch
-revision: HEAD
-```
-or
-```
-[OECORE]
-URI: git://git.yoctoproject.org/poky
-layers: meta
-branch: same dedicated branch as meta-st-stm32mp
-revision: HEAD
-```
-
-```
-[META-OPENEMBEDDED]
-URI: git://github.com/openembedded/meta-openembedded.git
-layers: meta-python meta-oe
-branch: same dedicated branch as meta-st-stm32mp
-revision: HEAD
-```
-
-The dependency (meta-python) are due to the usage of OPTEE which require to use some python packages.
-
-## EULA
-
-Some SoC depends on firmware and/or packages that are covered by
- STMicroelectronics EULA. To have the right to use those binaries in your images you need to read and accept the EULA available as:
-
-conf/eula/$MACHINE, e.g. conf/eula/stm32mp1
-
-In order to accept it, you should add, in your local.conf file:
-
-ACCEPT_EULA_$MACHINE = "1", e.g.: ACCEPT_EULA_stm32mp1 = "1"
-
-If you do not accept the EULA the generated image will be missing some
-components and features.
-
-## Contributing
-If you want to contribute changes, you can send Github pull requests at
-**https://github.com/stmicroelectronics/meta-st-stm32mp/pulls**.
-
-
-## Maintainers
- - Christophe Priouzeau <christophe.priouzeau@st.com>
- - Sebastien Gandon <sebastien.gandon@st.com>
- - Bernard Puel <bernard.puel@st.com>
+## Generate the SDK installation
+- `cd yocto-kmtek`
+- `DISTRO=openstlinux-weston MACHINE=kmtek source layers/meta-st/scripts/envsetup.sh build`
+- `bitbake -c populate_sdk kmtek-weston`
+- `ls tmp-glibc/deploy/sdk/`
+- [How to create an SDK for OpenSTLinux distribution](https://wiki.st.com/stm32mpu/wiki/How_to_create_an_SDK_for_OpenSTLinux_distribution)
