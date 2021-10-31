@@ -14,5 +14,5 @@
     <project name="meta-st-openstlinux" path="layers/meta-st/meta-st-openstlinux" revision="5465ed3781355776cb46d2cc45884b1ccc1011cd"/>
     <project name="meta-st-scripts" path="layers/meta-st/scripts" revision="b600010fa49e2bd4d3f10b732405200de974d3e2"/>
     <project name="openembedded-core" path="layers/openembedded-core" remote="oe" revision="1795f30d8ab73d35710ca99064c51190dc84853e"/>
-    <project name="meta-kmtek-stm32mp-v1" path="layers/meta-st/meta-kmtek-stm32mp" remote="kmt" revision="ac73915dc21463980665f551795917a7703ac869"/>
+    <project name="meta-kmtek-stm32mp-v1" path="layers/meta-st/meta-kmtek-stm32mp" remote="kmt" revision="b537312686aafd479f3b124b154b1c59952a3872"/>
 </manifest>
